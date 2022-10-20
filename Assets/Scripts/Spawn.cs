@@ -30,5 +30,9 @@ public class Spawn : MonoBehaviour
             SpawnNumber--;
             lastSpawned = Time.time;
         }
+        if (SpawnNumber <= 0)
+        {
+            GetComponent<Stage1Transition>().enabled = true;
+        }
     }
 }

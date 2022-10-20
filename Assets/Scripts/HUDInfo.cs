@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+
+
+/*
+ Camera Positions
+
+Level 1 Stage 1: -1.47, 3.9, -53
+
+Phase 1: -61.44, -0.02, -39.36
+
+Phase 2: -60.895, 1.86, -45.714
+ 
+ */
 public class HUDInfo : MonoBehaviour
 {
     [SerializeField] public GameObject HPCount;

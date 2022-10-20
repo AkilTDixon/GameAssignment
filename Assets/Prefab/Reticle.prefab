@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 651029371735534324}
   - component: {fileID: 651029371735534325}
   - component: {fileID: 651029371735534326}
-  - component: {fileID: 651029371735534327}
+  - component: {fileID: -2404794770642953886}
   m_Layer: 7
   m_Name: Reticle
   m_TagString: Untagged
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ae7f34f0d275c419e52784064ae248, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &651029371735534327
+--- !u!114 &-2404794770642953886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -123,10 +123,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 715ab2f76e2a62c429d2527505333631, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MuzzleFlash: {fileID: 198792769130808804, guid: 4543ab5e3d405ec40a8d4e9aa5165030, type: 3}
+  MuzzleFlash: {fileID: 0}
   FlashPoint: {fileID: 0}
   PlayerEntity: {fileID: 0}
-  GhostEntity: {fileID: 5121733534841169445, guid: 960d779c0490f0a4e82886c1310dbd43, type: 3}
+  GhostEntity: {fileID: 0}
   GhostSpawnPoint: {fileID: 0}
   AimPoint: {fileID: 0}
-  Range: 8
+  Range: 4
+  MouseP: {x: 0, y: 0, z: 0}
+  Boss1Phase1: 0

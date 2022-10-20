@@ -230,6 +230,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 104728b8214f4b94ba2cb0aa604a8533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DashCooldown: 0.25
+  Crosshair: {fileID: 0}
   anim: {fileID: 0}
   facing: {x: 0, y: 0, z: 0}
 --- !u!1 &2358994781191923428

@@ -6,13 +6,14 @@ using TMPro;
 public class Enemy : MonoBehaviour
 {
 
-    [SerializeField] private int HealthPoints = 100;
+    public int HealthPoints = 100;
     [SerializeField] private GameObject TextHolder;
     [SerializeField] private float ActiveTime = 5f;
     [SerializeField] private string EnemyType;
     [SerializeField] private GameObject AssociatedBountyCount;
     [SerializeField] private float EntrySpeed = -0.01f;
 
+    
     private GameObject BountyGraphic;
     private List<Material> baseMaterial;
     private Material DamageTaken;
@@ -31,7 +32,7 @@ public class Enemy : MonoBehaviour
 
     
     void Start()
-    {
+     {
         IntroDone = false;
         Highlighted = false;
         anim = GetComponent<Animator>();
@@ -50,7 +51,7 @@ public class Enemy : MonoBehaviour
     void Update()
     {
 
-        if (transform.position.z > -5.07f)
+        if (transform.position.z > -5.07f && EntrySpeed != 0)
         {
             anim.SetFloat("MovePeriod", 1);
             GetComponent<GhoulMovement>().enabled = false;
@@ -99,7 +100,7 @@ public class Enemy : MonoBehaviour
         }
         Highlighted = false;
     }
-    void FadeOut()
+    public void FadeOut()
     {
         lastFade = Time.time;
         for (int i = 0; i < Limbs.Count; i++)
@@ -136,6 +137,18 @@ public class Enemy : MonoBehaviour
             for (int i = 0; i < Limbs.Count; i++)
                 Limbs[i].GetComponent<SkinnedMeshRenderer>().material = DamageTaken;
 
+            if (EnemyType == "Boss")
+            {
+                if (gameObject.name == "Boss1Phase2(Clone)" && HealthPoints >= 0)
+                {
+                    GameObject spawnPoints = GameObject.Find("Boss1SpawnPoints");
+                    if (HealthPoints == 0)
+                        spawnPoints.GetComponent<Boss1Phase2>().EndEncounter();
+                    else
+                        spawnPoints.GetComponent<Boss1Phase2>().RestartPhase();
+                }
+            }
+
             if (HealthPoints <= 0)
             {
 
@@ -149,6 +162,8 @@ public class Enemy : MonoBehaviour
                         break;
                     case "Boss":
                         Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseBossBounty(1);
+                        break;
+                    case "Image":
                         break;
                 }
                 SpawnBountyGraphic();

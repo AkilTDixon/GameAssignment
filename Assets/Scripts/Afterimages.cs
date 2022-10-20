@@ -7,13 +7,16 @@ public class Afterimages : MonoBehaviour
     
     [SerializeField] GameObject ObjectToDuplicate;
     [SerializeField] int MaxImages = 5;
+    [SerializeField] float Cooldown = 0.25f;
     private float lastImage;
     private int imageCount;
     public GameObject[] images;
     private int head;
+    public float timeActivated;
 
     void Start()
     {
+        timeActivated = Time.time;
         images = new GameObject[MaxImages];
         head = MaxImages - 1;
         imageCount = 0;
@@ -24,7 +27,17 @@ public class Afterimages : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time > lastImage + 0.025f)
+        if (Time.time > timeActivated + Cooldown)
+        {
+
+            DeleteList(images);
+            
+            head = MaxImages - 1;
+            imageCount = 0;
+            lastImage = 0;
+            enabled = false;
+        }
+        if (Time.time > lastImage + 0.025f && enabled) 
         {
             if (head == -1)
                 head = MaxImages - 1;
@@ -43,11 +56,13 @@ public class Afterimages : MonoBehaviour
         }
     }
 
-    void AdjustList(List<GameObject> l)
+    void DeleteList(GameObject[] l)
     {
-        for (int i = 0; i < l.Count - 1; i++)
+        for (int i = 0; i < l.Length; i++)
         {
-            l[i] = l[i + 1];
+            if (l[i] != null)
+                Destroy(l[i].gameObject);
+            
         }
     }
 }

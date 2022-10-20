@@ -12,10 +12,14 @@ public class Shoot : MonoBehaviour
     [SerializeField] GameObject GhostEntity;
     [SerializeField] Transform GhostSpawnPoint;
     [SerializeField] Transform AimPoint;
-    [SerializeField] float Range = 4f;
-
-    private string Mode;
-    private string[] EnemyList = { "ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)" };
+    [SerializeField] float Range = 4f;    
+    public Vector3 MouseP;
+    public bool Boss1Phase1;
+    private bool DepthMode;
+    private GameObject Mode;
+    private float NormalRange;
+    
+    private string[] EnemyList = { "ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)", "Boss1Phase1", "Boss1Phase2(Clone)", "Boss1Phase2Image(Clone)" };
 
 
 
@@ -23,37 +27,70 @@ public class Shoot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Mode = Camera.main.transform.Find("HUD").Find("Mode").GetComponent<TextMeshProUGUI>().text;
+        NormalRange = Range;
+        Boss1Phase1 = false;
+        DepthMode = false;
+        Mode = Camera.main.transform.Find("HUD").Find("Mode").gameObject;
     }
     
     // Update is called once per frame
     void Update()
     {
 
-        RangeCheck();
-        if (Mode == "Singleplayer")
+        
+        if (Mode.GetComponent<TextMeshProUGUI>().text == "Singleplayer")
             Singleplayer();
         else
             Multiplayer();
-     
 
+        RangeCheck();
 
     }
-void Singleplayer()
+    void Singleplayer()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Tab))
+            DepthMode = !DepthMode;
+
+
+
         if (Input.GetKeyDown(KeyCode.Mouse0))
             HitScan();
 
         PlayerEntity.transform.forward = -(transform.position - AimPoint.position);
 
+
         Vector3 mouseScreenPosition = Input.mousePosition;
         mouseScreenPosition.z = mouseScreenPosition.z - (Camera.main.transform.position.z + 5.07f);
         Vector3 mPos = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
-        mPos.z = -5.07f;
-        
 
-        transform.position = ClampToRange(mPos);
+        if (DepthMode)
+        {
+            if (Range != Mathf.Infinity)
+                Range = Mathf.Infinity;
+            //mouseScreenPosition = Input.mousePosition;
+            mouseScreenPosition.z = mouseScreenPosition.z - (Camera.main.transform.position.z + 12f);
+            
+            mPos = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+            MouseP = mPos;
+            transform.position = ClampToDepthMode(mPos);
+        }
+        else
+        {
+            if (Range != NormalRange)
+                Range = NormalRange;
+            mPos.z = -5.07f;
+            transform.position = ClampToRange(mPos);
+        }
+
+    }
+    Vector3 ClampToDepthMode(Vector3 pos)
+    {
+        pos.y = AimPoint.position.y;
+        pos.x = AimPoint.position.x;
+        //if (pos.z < AimPoint.position.z)
+            //pos.z = AimPoint.position.z;
+
+        return pos;
     }
     Vector3 ClampToRange(Vector3 pos)
     {
@@ -74,24 +111,46 @@ void Singleplayer()
     {
         Vector3 nextChange;
 
-        if (Input.GetKey(KeyCode.W))
+        if (gameObject.name == "Player1Reticle")
         {
-            nextChange = transform.position + transform.up * Time.deltaTime * 5.0f;
-            if (nextChange.y < AimPoint.position.y + Range)
-                transform.position += transform.up * Time.deltaTime * 5.0f;
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            nextChange = transform.position + (-transform.up) * Time.deltaTime * 5.0f;
-            if (nextChange.y > AimPoint.position.y - Range)
-                transform.position += (-transform.up) * Time.deltaTime * 5.0f;
-        }
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            HitScan();
+            if (Input.GetKey(KeyCode.W))
+            {
+                nextChange = transform.position + transform.up * Time.deltaTime * 5.0f;
+                if (nextChange.y < AimPoint.position.y + Range)
+                    transform.position += transform.up * Time.deltaTime * 5.0f;
+            }
+            if (Input.GetKey(KeyCode.S))
+            {
+                nextChange = transform.position + (-transform.up) * Time.deltaTime * 5.0f;
+                if (nextChange.y > AimPoint.position.y - Range)
+                    transform.position += (-transform.up) * Time.deltaTime * 5.0f;
+            }
+            if (Input.GetKeyDown(KeyCode.LeftControl))
+            {
+                HitScan();
 
+            }
         }
+        else if (gameObject.name == "Player2Reticle")
+        {
+            if (Input.GetKey(KeyCode.Keypad8))
+            {
+                nextChange = transform.position + transform.up * Time.deltaTime * 5.0f;
+                if (nextChange.y < AimPoint.position.y + Range)
+                    transform.position += transform.up * Time.deltaTime * 5.0f;
+            }
+            if (Input.GetKey(KeyCode.Keypad5))
+            {
+                nextChange = transform.position + (-transform.up) * Time.deltaTime * 5.0f;
+                if (nextChange.y > AimPoint.position.y - Range)
+                    transform.position += (-transform.up) * Time.deltaTime * 5.0f;
+            }
+            if (Input.GetKeyDown(KeyCode.Keypad0))
+            {
+                HitScan();
 
+            }
+        }
         Vector3 newPos = AimPoint.position;
 
         if (PlayerEntity.transform.forward.x > 0)
@@ -131,7 +190,6 @@ void Singleplayer()
     void HitScan()
     {
 
-        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         ParticleSystem obj = Instantiate(MuzzleFlash, FlashPoint.position, MuzzleFlash.transform.rotation);
 
         MuzzleFlash.transform.right = AimPoint.up;
@@ -170,26 +228,30 @@ void Singleplayer()
                 Debug.Log("Hit");
             else
             {
-                GameObject ghost = Instantiate(GhostEntity, GhostSpawnPoint.position, GhostEntity.transform.rotation);
-                Vector3 towardPos = PlayerEntity.transform.position;
-                towardPos.y = 0;
-                towardPos.z = 0;
-                //ghost.transform.SetParent(PlayerEntity.transform);
-                ghost.transform.rotation = Quaternion.LookRotation(towardPos);
-                Debug.Log("Miss");
+                if (!Boss1Phase1)
+                {
+                    PlayerTakeDamage();
+                }
             }
 
         }
         else
         {
-            GameObject ghost = Instantiate(GhostEntity, GhostSpawnPoint.position, GhostEntity.transform.rotation);
-            //ghost.transform.SetParent(PlayerEntity.transform);
-            Vector3 towardPos = PlayerEntity.transform.position;
-            towardPos.y = 0;
-            towardPos.z = 0;
-            ghost.transform.rotation = Quaternion.LookRotation(towardPos);
-            Debug.Log("Miss");
+            if (!Boss1Phase1)
+            {
+                PlayerTakeDamage();
+            }
         }
 
+    }
+    public void PlayerTakeDamage()
+    {
+        GameObject ghost = Instantiate(GhostEntity, GhostSpawnPoint.position, GhostEntity.transform.rotation);
+        //ghost.transform.SetParent(PlayerEntity.transform);
+        Vector3 towardPos = PlayerEntity.transform.position;
+        towardPos.y = 0;
+        towardPos.z = 0;
+        ghost.transform.rotation = Quaternion.LookRotation(towardPos);
+        Debug.Log("Miss");
     }
 }
