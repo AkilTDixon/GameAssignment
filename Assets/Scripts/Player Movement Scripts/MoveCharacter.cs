@@ -12,11 +12,11 @@ public class MoveCharacter : MonoBehaviour
     public Animator anim;
     public Vector3 facing;
     private float DashStart;
-    private string Mode;
+    public string Mode;
 
     void Start()
     {
-        Mode = Camera.main.transform.Find("HUD").Find("Mode").GetComponent<TextMeshProUGUI>().text;
+        Mode = Camera.main.transform.Find("HUD").Find("GameplayUI").Find("Mode").GetComponent<TextMeshProUGUI>().text;
         body = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         facing = Vector3.right;
@@ -37,8 +37,13 @@ public class MoveCharacter : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Keypad6) && Mode != "Multiplayer")
         {
+            Camera.main.transform.Find("HUD").gameObject.GetComponent<HUDInfo>().SetMultiplayerUI();
             Mode = "Multiplayer";
-            Camera.main.transform.Find("HUD").Find("Mode").GetComponent<TextMeshProUGUI>().text = Mode;
+            
+            //HUD.transform.Find("GameplayUI").Find("Mode").GetComponent<TextMeshProUGUI>().text = Mode;
+            //HUD.GetComponent<HUDInfo>().SetMultiplayerUI();
+           
+
             PlayerEntityInfo pei = GameObject.Find("PlayerEntityInfo").GetComponent<PlayerEntityInfo>();
             pei.Player2.SetActive(true);
             pei.Player2Reticle.SetActive(true);

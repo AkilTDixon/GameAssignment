@@ -10,14 +10,17 @@ public class WitchSpawn : MonoBehaviour
      Witch can only spawn a maximum of two times per level
      */
 
-    [SerializeField] int MaxSpawnOccurence = 2;
-    [SerializeField] float SpawnChance = 0.01f;
+    public float SpawnChance = 0.01f;
+    public float SpawnChanceIncrement = 0.005f;
     [SerializeField] GameObject EnemyPrefab;
+    [SerializeField] GameObject PlayerEntityInfo;
+    public bool VariantMode = false;
     private Transform[] ChildObjects;
     private int numOfChildren;
     private float lastChecked;
     private float SpawnChanceBase;
-
+    public float VariantStart = 0;
+    public float vActiveTime = 10;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +35,20 @@ public class WitchSpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+/*        if (VariantMode)
+        {
+            if (VariantStart == 0)
+                VariantStart = Time.time;
+
+            if (Time.time > VariantStart + vActiveTime)
+            {
+                VariantStart = 0;
+
+
+            }
+
+        }*/
+        
         if (Time.time > lastChecked+1f)
         {
             float randNum = Random.value;
@@ -47,7 +64,7 @@ public class WitchSpawn : MonoBehaviour
             }
             else
             {
-                SpawnChance += 0.005f;
+                SpawnChance += SpawnChanceIncrement;
             }
             lastChecked = Time.time;
         }

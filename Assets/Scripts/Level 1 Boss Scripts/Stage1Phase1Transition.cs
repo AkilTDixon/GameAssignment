@@ -40,7 +40,7 @@ public class Stage1Phase1Transition : MonoBehaviour
 
         BossSpawnPoints.GetComponent<Boss1Phase2>().enabled = true;
 
-        Camera.main.transform.position = new Vector3(-60.895f, 1.86f, -45.714f);
+        Camera.main.transform.position = new Vector3(-67.32f, 3.18f, -48.15f);
 
 
         //Destroy(gameObject);

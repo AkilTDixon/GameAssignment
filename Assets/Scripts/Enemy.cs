@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
     
     void Start()
      {
+        
         IntroDone = false;
         Highlighted = false;
         anim = GetComponent<Animator>();
@@ -55,7 +56,7 @@ public class Enemy : MonoBehaviour
         {
             anim.SetFloat("MovePeriod", 1);
             GetComponent<GhoulMovement>().enabled = false;
-            transform.position += new Vector3(0, 0, EntrySpeed);
+            transform.position += new Vector3(0, 0, -1f * EntrySpeed * Time.deltaTime);
             transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, -1));
             if (transform.position.z <= -5.07f)
                 IntroDone = true;
@@ -63,7 +64,7 @@ public class Enemy : MonoBehaviour
         else
         {
             
-            if (!Highlighted)
+            if (!tookDamage)
                 for (int i = 0; i < Limbs.Count; i++)
                     Limbs[i].GetComponent<SkinnedMeshRenderer>().material = baseMaterial[i];
 
@@ -114,7 +115,7 @@ public class Enemy : MonoBehaviour
         }
         
     }
-    public void HighlightEnemy()
+/*    public void HighlightEnemy()
     {
         Highlighted = true;
         if (!tookDamage)
@@ -124,8 +125,8 @@ public class Enemy : MonoBehaviour
                 Limbs[i].GetComponent<SkinnedMeshRenderer>().material = HighlightMaterial;
             }
         }
-    }
-    public void TakeDamage(int dmg)
+    }*/
+    public void TakeDamage(int dmg, string player)
     {
 
         if (!deadAnim)
@@ -155,13 +156,13 @@ public class Enemy : MonoBehaviour
                 switch (EnemyType)
                 {
                     case "Zombie":
-                        Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseLowBounty(1);
+                        Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseLowBounty(1, player);
                         break;
                     case "Witch":
-                        Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseWitchBounty(1);
+                        Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseWitchBounty(1, player);
                         break;
                     case "Boss":
-                        Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseBossBounty(1);
+                        Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseBossBounty(1, player);
                         break;
                     case "Image":
                         break;

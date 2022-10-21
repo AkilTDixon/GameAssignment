@@ -392,13 +392,13 @@ GameObject:
   m_Component:
   - component: {fileID: 3297670856472857977}
   - component: {fileID: 3297670856480645799}
-  - component: {fileID: 170749433248998852}
   - component: {fileID: 830244263578372312}
   - component: {fileID: 3159736644612166333}
   - component: {fileID: 7573086166069202322}
   - component: {fileID: 1769275571259904559}
   - component: {fileID: 7078791986995415552}
   - component: {fileID: 7698802062481396531}
+  - component: {fileID: 129763229934099518}
   m_Layer: 0
   m_Name: Boss1Phase1
   m_TagString: Untagged
@@ -444,18 +444,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &170749433248998852
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3297670856473219353}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80634e283d6e55948a882122d3150a77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &830244263578372312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -473,7 +461,7 @@ MonoBehaviour:
   ActiveTime: 1000
   EnemyType: Boss
   AssociatedBountyCount: {fileID: 6823564194655559884, guid: 94b0b7d1c01dc944283c5ef3808dc5d0, type: 3}
-  EntrySpeed: -0.01
+  EntrySpeed: 20
   Highlighted: 0
 --- !u!114 &3159736644612166333
 MonoBehaviour:
@@ -511,6 +499,7 @@ MonoBehaviour:
   EnemyType: Boss
   MoveDirection: {x: 1, y: 0, z: 0}
   PhaseNumber: 1
+  Target: 
 --- !u!65 &1769275571259904559
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -555,6 +544,19 @@ MonoBehaviour:
   GeometryToRemove:
   - {fileID: 0}
   BossSpawnPoints: {fileID: 0}
+  PlayerEntity: {fileID: 0}
+--- !u!114 &129763229934099518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3297670856473219353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43a287b8d8334e24a9c68a321c56b395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3297670856473219355
 GameObject:
   m_ObjectHideFlags: 0

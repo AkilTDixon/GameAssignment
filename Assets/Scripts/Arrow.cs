@@ -15,7 +15,7 @@ public class Arrow : MonoBehaviour
         {
             
             if (collision.gameObject.name == "ZombieEnemy")
-                collision.gameObject.GetComponent<Enemy>().TakeDamage(Damage);
+                collision.gameObject.GetComponent<Enemy>().TakeDamage(Damage, "eh");
             
             Destroy(gameObject);
         }

@@ -589,9 +589,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthPoints: 20
   TextHolder: {fileID: 1240404133}
-  ActiveTime: 10
+  ActiveTime: 3.5
   EnemyType: Zombie
   AssociatedBountyCount: {fileID: 99673852668965314, guid: c8f15d3bbc767254090c1d4456828ec2, type: 3}
+  EntrySpeed: 3.5
+  Highlighted: 0
 --- !u!114 &650007099
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,6 +623,10 @@ MonoBehaviour:
   WaitIntervalMax: 10
   MoveIntervalMin: 1
   MoveIntervalMax: 3
+  EnemyType: Zombie
+  MoveDirection: {x: 0, y: 0, z: 0}
+  PhaseNumber: 0
+  Target: 
 --- !u!4 &8869022989957842565 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 578376449398627443, guid: 6dc4cf4496348884d8ee27743ae38562, type: 3}

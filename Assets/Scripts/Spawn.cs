@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class Spawn : MonoBehaviour
 {
-    [SerializeField] float SpawnInterval = 5f;
+    public float SpawnInterval = 5f;
     [SerializeField] GameObject EnemyPrefab;
-    [SerializeField] int SpawnNumber = 10;
+    [SerializeField] GameObject PlayerEntityInfo;
+    public bool VariantMode = false;
+    public int SpawnNumber = 10;
+    public int EntitiesPerInterval = 1;
 
     private Transform[] ChildObjects;
     private int numOfChildren;
     private float lastSpawned;
+    public float VariantStart = 0;
+    public float vActiveTime = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -22,17 +28,36 @@ public class Spawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
+/*        if (VariantMode)
+        {
+            if (VariantStart == 0)
+                VariantStart = Time.time;
+
+            if (Time.time > VariantStart + vActiveTime)
+            {
+                VariantStart = 0;        
+            }
+                
+        }*/
+
         if ((Time.time > lastSpawned + SpawnInterval || lastSpawned == 0f) && SpawnNumber > 0)
         {
-            Transform spawnPoint = ChildObjects[Random.Range(0, numOfChildren - 1)];
+            for (int i = 0; i < EntitiesPerInterval; i++)
+            {
+                Transform spawnPoint = ChildObjects[Random.Range(0, numOfChildren - 1)];
 
-            GameObject obj = (GameObject)Instantiate(EnemyPrefab, spawnPoint.position, EnemyPrefab.transform.rotation);
-            SpawnNumber--;
-            lastSpawned = Time.time;
+                Instantiate(EnemyPrefab, spawnPoint.position, EnemyPrefab.transform.rotation);
+                SpawnNumber--;
+                lastSpawned = Time.time;
+            }
         }
         if (SpawnNumber <= 0)
         {
-            GetComponent<Stage1Transition>().enabled = true;
+/*            if (VariantMode)
+            {
+                VariantStart = 0;        
+            }*/
+            GetComponent<StageTransition>().enabled = true;
         }
     }
 }

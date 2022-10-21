@@ -8,6 +8,7 @@ public class Afterimages : MonoBehaviour
     [SerializeField] GameObject ObjectToDuplicate;
     [SerializeField] int MaxImages = 5;
     [SerializeField] float Cooldown = 0.25f;
+    public bool VariantMode = false;
     private float lastImage;
     private int imageCount;
     public GameObject[] images;
@@ -27,7 +28,7 @@ public class Afterimages : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.time > timeActivated + Cooldown)
+        if (Time.time > timeActivated + Cooldown && !VariantMode)
         {
 
             DeleteList(images);

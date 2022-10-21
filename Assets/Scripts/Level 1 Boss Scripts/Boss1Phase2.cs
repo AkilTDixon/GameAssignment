@@ -1,23 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Boss1Phase2 : MonoBehaviour
 {
     [SerializeField] GameObject ImagePrefab;
     [SerializeField] GameObject BossPrefab;
     [SerializeField] List<GameObject> PlayerReticles;
-
+    [SerializeField] GameObject PhaseTimer;
+    [SerializeField] GameObject PlayerEntityInfo;
+    private TextMeshProUGUI PhaseTimerText;
     public Transform[] ChildObjects;
     private List<GameObject> BossImages;
     private int numOfChildren;
     private bool BossInstantiated = false;
     private int BossHealth = 30;
     private int DeadImages = 0;
+    private float TimeTaken;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        PlayerEntityInfo.GetComponent<PlayerEntityInfo>().EndVariantMode("Boss");
+        PhaseTimer.SetActive(true);
+        PhaseTimerText = PhaseTimer.GetComponent<TextMeshProUGUI>();
+        TimeTaken = Time.time;
         Random.InitState(((int)System.DateTime.Now.Ticks));
         BossImages = new List<GameObject>();
         ChildObjects = GetComponentsInChildren<Transform>();
@@ -29,20 +38,41 @@ public class Boss1Phase2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (BossImages.Count == 0)
 
+        if (Time.time >= TimeTaken + 1f)
+            PhaseTimerText.text = "1";
+        if (Time.time >= TimeTaken + 2f)
+            PhaseTimerText.text = "2";
+        if (Time.time >= TimeTaken + 3f)
+            PhaseTimerText.text = "3";
+        if (Time.time >= TimeTaken + 4f)
+            PhaseTimerText.text = "4";
+
+        if (Time.time > TimeTaken + 5f)
+        {
+            TimeTaken = Time.time;
+            PhaseTimerText.text = "0";
+            PlayerReticles[0].GetComponent<Shoot>().PlayerTakeDamage(33f);
+            ClearList(BossImages);
+            SpawnNPCs();
+        }
         CurateList(BossImages);
     }
     public void RestartPhase()
     {
         BossHealth -= 10;
+        PhaseTimerText.text = "0";
+        TimeTaken = Time.time;
         ClearList(BossImages);
         SpawnNPCs();
     }
     public void EndEncounter()
     {
         BossHealth -= 10;
+        PhaseTimer.SetActive(false);
         ClearList(BossImages);
+
+
         Destroy(gameObject);
     }
     void SpawnNPCs()
@@ -75,7 +105,9 @@ public class Boss1Phase2 : MonoBehaviour
                 DeadImages++;
                 if (DeadImages >= 3)
                 {
-                    PlayerReticles[0].GetComponent<Shoot>().PlayerTakeDamage();
+                    for (int j = 0; j < PlayerReticles.Count; j++)
+                        if (PlayerReticles[j].activeSelf)
+                            PlayerReticles[j].GetComponent<Shoot>().PlayerTakeDamage(33f);
                     clear = true;
                     break;
                 }
@@ -83,6 +115,8 @@ public class Boss1Phase2 : MonoBehaviour
         }
         if (clear)
         {
+            TimeTaken = Time.time;
+            PhaseTimerText.text = "0";
             ClearList(BossImages);
             SpawnNPCs();
         }

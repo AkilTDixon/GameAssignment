@@ -157,6 +157,7 @@ GameObject:
   - component: {fileID: 35664146483791306}
   - component: {fileID: 35664146483791307}
   - component: {fileID: 35664146483791304}
+  - component: {fileID: -6968499035203090633}
   m_Layer: 7
   m_Name: Player4
   m_TagString: Untagged
@@ -234,6 +235,23 @@ MonoBehaviour:
   Crosshair: {fileID: 0}
   anim: {fileID: 0}
   facing: {x: 0, y: 0, z: 0}
+--- !u!114 &-6968499035203090633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 640574396040981690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa73f0105d772b9418924726ea1c9297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObjectToDuplicate: {fileID: 620779175252034359, guid: 8306ee49f5729624cb21ce46aba3af6e, type: 3}
+  MaxImages: 10
+  Cooldown: 0.25
+  images: []
+  timeActivated: 0
 --- !u!1 &2358994781191923428
 GameObject:
   m_ObjectHideFlags: 0

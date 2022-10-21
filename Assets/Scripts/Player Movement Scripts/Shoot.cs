@@ -12,25 +12,74 @@ public class Shoot : MonoBehaviour
     [SerializeField] GameObject GhostEntity;
     [SerializeField] Transform GhostSpawnPoint;
     [SerializeField] Transform AimPoint;
-    [SerializeField] float Range = 4f;    
+    [SerializeField] float Range = 4f;
+    [SerializeField] AudioSource[] GunSounds;
+
+    [SerializeField] GameObject Stage1SpawnPoints;
+    [SerializeField] GameObject Stage2SpawnPoints;
+    [SerializeField] GameObject Stage1WitchSpawnPoints;
+    [SerializeField] GameObject Stage2WitchSpawnPoints;
+    [SerializeField] float GhostDamage = 33;
+    public float VariantModeCooldown = 20f;
+    public float VariantActiveTime = 10f;
+
+    private float VariantStart = 0;
     public Vector3 MouseP;
     public bool Boss1Phase1;
     private bool DepthMode;
     private GameObject Mode;
+    private GameObject HUD;
     private float NormalRange;
-    
+    public bool variant = false;
     private string[] EnemyList = { "ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)", "Boss1Phase1", "Boss1Phase2(Clone)", "Boss1Phase2Image(Clone)" };
+    private float lastShot = 0;
 
+    //Defaults
+    public float DamageDefault;
 
+    private int Stage1SpawnNumber;
+    private float Stage1SpawnInterval;
+    private int Stage1EntitiesPerInterval;
 
+    private int Stage2SpawnNumber;
+    private float Stage2SpawnInterval;
+    private int Stage2EntitiesPerInterval;
+
+    private float Stage1WitchSpawnChance;
+    private float Stage1WitchSpawnChanceIncrement;
+    
+    private float Stage2WitchSpawnChance;
+    private float Stage2WitchSpawnChanceIncrement;
+    //
+    
     private Transform camTransform;
+    
     // Start is called before the first frame update
     void Start()
     {
+        DamageDefault = GhostDamage;
+
+        Stage1WitchSpawnChance = Stage1WitchSpawnPoints.GetComponent<WitchSpawn>().SpawnChance;
+        Stage2WitchSpawnChance = Stage2WitchSpawnPoints.GetComponent<WitchSpawn>().SpawnChance;
+
+        Stage1WitchSpawnChanceIncrement = Stage1WitchSpawnPoints.GetComponent<WitchSpawn>().SpawnChanceIncrement;
+        Stage2WitchSpawnChanceIncrement = Stage2WitchSpawnPoints.GetComponent<WitchSpawn>().SpawnChanceIncrement;
+
+        Stage1SpawnNumber = Stage1SpawnPoints.GetComponent<Spawn>().SpawnNumber;
+        Stage1SpawnInterval = Stage1SpawnPoints.GetComponent<Spawn>().SpawnInterval;
+        Stage1EntitiesPerInterval = Stage1SpawnPoints.GetComponent<Spawn>().EntitiesPerInterval;
+
+        Stage2SpawnNumber = Stage2SpawnPoints.GetComponent<Spawn>().SpawnNumber;
+        Stage2SpawnInterval = Stage2SpawnPoints.GetComponent<Spawn>().SpawnInterval;
+        Stage2EntitiesPerInterval = Stage2SpawnPoints.GetComponent<Spawn>().EntitiesPerInterval;
+
+        GunSounds = PlayerEntity.GetComponents<AudioSource>();
+        Random.InitState(((int)System.DateTime.Now.Ticks));
         NormalRange = Range;
         Boss1Phase1 = false;
         DepthMode = false;
-        Mode = Camera.main.transform.Find("HUD").Find("Mode").gameObject;
+        HUD = Camera.main.transform.Find("HUD").gameObject;
+        Mode = HUD.transform.Find("GameplayUI").Find("Mode").gameObject;
     }
     
     // Update is called once per frame
@@ -43,7 +92,7 @@ public class Shoot : MonoBehaviour
         else
             Multiplayer();
 
-        RangeCheck();
+        //RangeCheck();
 
     }
     void Singleplayer()
@@ -51,11 +100,15 @@ public class Shoot : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
             DepthMode = !DepthMode;
 
-
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Q) && !variant && (Time.time > VariantStart + (VariantModeCooldown + VariantActiveTime) || VariantStart == 0))   
+            VariantMode();
+        
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !variant)
             HitScan();
-
+        else if (Input.GetKey(KeyCode.Mouse0) && Time.time > lastShot + 0.1f && variant)
+        {
+            HitScan();
+        }
         PlayerEntity.transform.forward = -(transform.position - AimPoint.position);
 
 
@@ -81,6 +134,141 @@ public class Shoot : MonoBehaviour
             mPos.z = -5.07f;
             transform.position = ClampToRange(mPos);
         }
+
+    }
+    public void SetVariantBool()
+    {
+        variant = false;
+    }
+    public void RemoveSpawnMultipliers()
+    {
+        Spawn s1 = Stage1SpawnPoints.GetComponent<Spawn>();
+        //WitchSpawn ws1 = Stage1WitchSpawnPoints.GetComponent<WitchSpawn>();
+
+        Spawn s2 = Stage2SpawnPoints.GetComponent<Spawn>();
+        //WitchSpawn ws2 = Stage2WitchSpawnPoints.GetComponent<WitchSpawn>();
+
+        s2.SpawnNumber /= 5;
+        s1.SpawnNumber /= 5;
+    }
+    public void SetSpawnDefaults()
+    {
+        Spawn s1 = Stage1SpawnPoints.GetComponent<Spawn>();
+        WitchSpawn ws1 = Stage1WitchSpawnPoints.GetComponent<WitchSpawn>();
+
+        Spawn s2 = Stage2SpawnPoints.GetComponent<Spawn>();
+        WitchSpawn ws2 = Stage2WitchSpawnPoints.GetComponent<WitchSpawn>();
+
+/*        ws1.VariantMode = false;
+        ws1.VariantStart = 0;
+        s1.VariantMode = false;
+        s1.VariantStart = 0;
+
+        ws2.VariantStart = 0;
+        ws2.VariantMode = false;
+        s2.VariantMode = false;
+        s2.VariantStart = 0;*/
+
+        s1.SpawnNumber /= 5;
+        s1.SpawnInterval = Stage1SpawnInterval;
+        s1.EntitiesPerInterval = Stage1EntitiesPerInterval;
+
+        s2.SpawnNumber /= 5;
+        s2.SpawnInterval = Stage2SpawnInterval;
+        s2.EntitiesPerInterval = Stage2EntitiesPerInterval;
+
+        ws1.SpawnChance = Stage1WitchSpawnChance;
+        ws1.SpawnChanceIncrement = Stage1WitchSpawnChanceIncrement;
+
+        ws2.SpawnChance = Stage2WitchSpawnChance;
+        ws2.SpawnChanceIncrement = Stage2WitchSpawnChanceIncrement;
+    }
+    public void SetDefaults()
+    {
+        Spawn s1 = Stage1SpawnPoints.GetComponent<Spawn>();
+        WitchSpawn ws1 = Stage1WitchSpawnPoints.GetComponent<WitchSpawn>();
+
+        Spawn s2 = Stage2SpawnPoints.GetComponent<Spawn>();
+        WitchSpawn ws2 = Stage2WitchSpawnPoints.GetComponent<WitchSpawn>();
+
+        variant = false;
+
+        ws1.VariantMode = false;
+        ws1.VariantStart = 0;
+        s1.VariantMode = false;
+        s1.VariantStart = 0;
+
+        ws2.VariantStart = 0;
+        ws2.VariantMode = false;
+        s2.VariantMode = false;
+        s2.VariantStart = 0;
+
+        s1.SpawnNumber /= 5;
+        s1.SpawnInterval = Stage1SpawnInterval;
+        s1.EntitiesPerInterval = Stage1EntitiesPerInterval;
+
+        s2.SpawnNumber /= 5;
+        s2.SpawnInterval = Stage2SpawnInterval;
+        s2.EntitiesPerInterval = Stage2EntitiesPerInterval;
+
+        ws1.SpawnChance = Stage1WitchSpawnChance;
+        ws1.SpawnChanceIncrement = Stage1WitchSpawnChanceIncrement;
+
+        ws2.SpawnChance = Stage2WitchSpawnChance;
+        ws2.SpawnChanceIncrement = Stage2WitchSpawnChanceIncrement;
+
+        GhostDamage = DamageDefault;
+
+    }
+    public void SetGhostDamage(float value)
+    {
+        GhostDamage = value;
+    }
+    void VariantMode()
+    {
+        Spawn s1 = Stage1SpawnPoints.GetComponent<Spawn>();
+        WitchSpawn ws1 = Stage1WitchSpawnPoints.GetComponent<WitchSpawn>();
+
+        Spawn s2 = Stage2SpawnPoints.GetComponent<Spawn>();
+        WitchSpawn ws2 = Stage2WitchSpawnPoints.GetComponent<WitchSpawn>();
+
+        variant = true;
+        VariantStart = Time.time;
+
+        HUD.GetComponent<HUDInfo>().VariantActivated(PlayerEntity.gameObject.name);
+
+        ws1.VariantMode = true;
+        ws1.vActiveTime = VariantActiveTime;
+        s1.VariantMode = true;
+        s1.vActiveTime = VariantActiveTime;
+
+        ws2.vActiveTime = VariantActiveTime;
+        ws2.VariantMode = true;
+        s2.VariantMode = true;
+        s2.vActiveTime = VariantActiveTime;
+
+        //Stage1SpawnNumber = s1.SpawnNumber;
+        s1.SpawnNumber *= 5;
+        //Stage1SpawnInterval = s1.SpawnInterval;
+        s1.SpawnInterval *= 0.5f;
+        //Stage1EntitiesPerInterval = s1.EntitiesPerInterval;
+        s1.EntitiesPerInterval = 5;
+
+        //Stage2SpawnNumber = s2.SpawnNumber;
+        s2.SpawnNumber *= 5;
+        //Stage2SpawnInterval = s2.SpawnInterval;
+        s2.SpawnInterval *= 0.5f;
+        //Stage2EntitiesPerInterval = s2.EntitiesPerInterval;
+        s2.EntitiesPerInterval = 5;
+
+        ws1.SpawnChance = 0.1f;
+        ws1.SpawnChanceIncrement = 0.1f;
+
+        ws2.SpawnChance = 0.1f;
+        ws2.SpawnChanceIncrement = 0.1f;
+
+        GhostDamage = 0.5f;
+
 
     }
     Vector3 ClampToDepthMode(Vector3 pos)
@@ -113,6 +301,12 @@ public class Shoot : MonoBehaviour
 
         if (gameObject.name == "Player1Reticle")
         {
+            if (Input.GetKeyDown(KeyCode.Tab))
+                DepthMode = !DepthMode;
+
+            if (Input.GetKeyDown(KeyCode.Q) && !variant && (Time.time > VariantStart + (VariantModeCooldown + VariantActiveTime) || VariantStart == 0))
+                VariantMode();
+
             if (Input.GetKey(KeyCode.W))
             {
                 nextChange = transform.position + transform.up * Time.deltaTime * 5.0f;
@@ -125,14 +319,24 @@ public class Shoot : MonoBehaviour
                 if (nextChange.y > AimPoint.position.y - Range)
                     transform.position += (-transform.up) * Time.deltaTime * 5.0f;
             }
-            if (Input.GetKeyDown(KeyCode.LeftControl))
+            if (Input.GetKeyDown(KeyCode.LeftControl) && !variant)
             {
                 HitScan();
 
             }
+            else if (Input.GetKey(KeyCode.LeftControl) && Time.time > lastShot + 0.1f && variant)
+            {
+                HitScan();
+            }
         }
         else if (gameObject.name == "Player2Reticle")
         {
+            if (Input.GetKeyDown(KeyCode.Keypad7))
+                DepthMode = !DepthMode;
+
+            if (Input.GetKeyDown(KeyCode.Keypad1) && !variant && (Time.time > VariantStart + (VariantModeCooldown + VariantActiveTime) || VariantStart == 0))
+                VariantMode();
+
             if (Input.GetKey(KeyCode.Keypad8))
             {
                 nextChange = transform.position + transform.up * Time.deltaTime * 5.0f;
@@ -145,28 +349,49 @@ public class Shoot : MonoBehaviour
                 if (nextChange.y > AimPoint.position.y - Range)
                     transform.position += (-transform.up) * Time.deltaTime * 5.0f;
             }
-            if (Input.GetKeyDown(KeyCode.Keypad0))
+            if (Input.GetKeyDown(KeyCode.Keypad0) && !variant)
             {
                 HitScan();
-
             }
+            else if (Input.GetKey(KeyCode.Keypad0) && Time.time > lastShot + 0.1f && variant)
+            {
+                HitScan();
+            }
+
         }
+
+
+
         Vector3 newPos = AimPoint.position;
 
+        //Fixed X position
         if (PlayerEntity.transform.forward.x > 0)
             newPos = new Vector3(AimPoint.position.x - Range, transform.position.y, transform.position.z);
         else
             newPos = new Vector3(AimPoint.position.x + Range, transform.position.y, transform.position.z);
 
-        if (newPos.y < AimPoint.position.y - Range)
-            newPos.y = AimPoint.position.y - Range;
-        else if (newPos.y > AimPoint.position.y + Range)
-            newPos.y = AimPoint.position.y + Range;
 
-        transform.position = newPos;
+        if (DepthMode)
+        {
+            if (Range != Mathf.Infinity)
+                Range = Mathf.Infinity;
+            
+            newPos.z = 12f;
+
+            //mPos = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
+            transform.position = ClampToDepthMode(newPos);
+        }
+        else
+        {
+            if (Range != NormalRange)
+                Range = NormalRange;
+            newPos.z = -5.07f;
+            transform.position = ClampToRange(newPos);
+        }
+
         PlayerEntity.transform.forward = -(transform.position - AimPoint.position);
     }
-    void RangeCheck()
+/*    void RangeCheck()
     {
         Vector3 direction = transform.position - AimPoint.position;
 
@@ -186,9 +411,13 @@ public class Shoot : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
     void HitScan()
     {
+        lastShot = Time.time;
+        int randNum = Random.Range(0, GunSounds.Length - 1);
+
+        GunSounds[randNum].Play();
 
         ParticleSystem obj = Instantiate(MuzzleFlash, FlashPoint.position, MuzzleFlash.transform.rotation);
 
@@ -215,7 +444,7 @@ public class Shoot : MonoBehaviour
                         EnemyCount++;
                         EnemyType = hits[j].collider.name;
                         GameObject enemy = hits[j].collider.gameObject;
-                        enemy.GetComponent<Enemy>().TakeDamage(10);
+                        enemy.GetComponent<Enemy>().TakeDamage(10, PlayerEntity.gameObject.name);
                         enemyHit = true;
                     }
 
@@ -223,14 +452,14 @@ public class Shoot : MonoBehaviour
                 }
             }
             if (EnemyCount >= 2)
-                GetComponent<MultiKillBonus>().AddBonus(((int)Mathf.Ceil(EnemyCount / 2f)) * 5, EnemyType);
+                GetComponent<MultiKillBonus>().AddBonus(((int)Mathf.Ceil(EnemyCount / 2f)) * 5, EnemyType, PlayerEntity.gameObject.name);
             if (enemyHit)
                 Debug.Log("Hit");
             else
             {
                 if (!Boss1Phase1)
                 {
-                    PlayerTakeDamage();
+                    PlayerTakeDamage(GhostDamage);
                 }
             }
 
@@ -239,14 +468,16 @@ public class Shoot : MonoBehaviour
         {
             if (!Boss1Phase1)
             {
-                PlayerTakeDamage();
+                PlayerTakeDamage(GhostDamage);
             }
         }
 
     }
-    public void PlayerTakeDamage()
+    public void PlayerTakeDamage(float value)
     {
         GameObject ghost = Instantiate(GhostEntity, GhostSpawnPoint.position, GhostEntity.transform.rotation);
+        ghost.GetComponent<GhostTarget>().SetTarget(PlayerEntity.gameObject.name);
+        ghost.GetComponent<GhostTarget>().SetDamage(value);
         //ghost.transform.SetParent(PlayerEntity.transform);
         Vector3 towardPos = PlayerEntity.transform.position;
         towardPos.y = 0;

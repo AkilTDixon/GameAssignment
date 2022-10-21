@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 5121733534841469509}
   - component: {fileID: 5121733534850520475}
   - component: {fileID: -1690754094510075144}
+  - component: {fileID: -9144855220705872754}
   m_Layer: 0
   m_Name: GhostlySkeleton
   m_TagString: Untagged
@@ -243,6 +244,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80634e283d6e55948a882122d3150a77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-9144855220705872754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5121733534841169445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8661688fec2e93e4ca5d3be0ca0e6d92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PlayerName: Player1
 --- !u!1 &5121733534841169447
 GameObject:
   m_ObjectHideFlags: 0

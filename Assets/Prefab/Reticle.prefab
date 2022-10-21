@@ -130,5 +130,11 @@ MonoBehaviour:
   GhostSpawnPoint: {fileID: 0}
   AimPoint: {fileID: 0}
   Range: 4
+  GunSounds:
+  - {fileID: 4263375048207055037, guid: fb8f57ae599b7cc45b6599f7c2a9fb61, type: 3}
+  - {fileID: 2055318468373050420, guid: a51608a8479d078428379d7145c06148, type: 3}
+  - {fileID: 1930105759028288299, guid: 77cd8d4c1f09ed146aef1b98a120b239, type: 3}
+  - {fileID: 6570626107153171552, guid: 395303ae090c2a04f9a13202153d8aac, type: 3}
+  - {fileID: 4293398175380922550, guid: ca3a0a71d865db44682b3cc81656c296, type: 3}
   MouseP: {x: 0, y: 0, z: 0}
   Boss1Phase1: 0

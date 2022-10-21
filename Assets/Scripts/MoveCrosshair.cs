@@ -9,6 +9,7 @@ public class MoveCrosshair : MonoBehaviour
     [SerializeField] ParticleSystem MuzzleFlash;
     [SerializeField] Transform FlashPoint;
     [SerializeField] GameObject GhostEntity;
+    [SerializeField] string PlayerName;
 
     private string[] EnemyList = {"ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)" };
 
@@ -81,7 +82,7 @@ public class MoveCrosshair : MonoBehaviour
                         EnemyCount++;
                         EnemyType = hits[j].collider.name;
                         GameObject enemy = hits[j].collider.gameObject;
-                        enemy.GetComponent<Enemy>().TakeDamage(10);
+                        enemy.GetComponent<Enemy>().TakeDamage(10, PlayerName);
                         enemyHit = true;
                     }
                   
@@ -89,7 +90,7 @@ public class MoveCrosshair : MonoBehaviour
                 }
             }
             if (EnemyCount >= 2)
-                GetComponent<MultiKillBonus>().AddBonus(((int)Mathf.Ceil(EnemyCount / 2f)) * 5, EnemyType);
+                GetComponent<MultiKillBonus>().AddBonus(((int)Mathf.Ceil(EnemyCount / 2f)) * 5, EnemyType, PlayerName);
             if (enemyHit)
                 Debug.Log("Hit");
             else

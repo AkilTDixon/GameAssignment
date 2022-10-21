@@ -80,7 +80,7 @@ public class BackUp : MonoBehaviour
                         EnemyCount++;
                         EnemyType = hits[j].collider.name;
                         GameObject enemy = hits[j].collider.gameObject;
-                        enemy.GetComponent<Enemy>().TakeDamage(10);
+                        enemy.GetComponent<Enemy>().TakeDamage(10, "eh");
                         enemyHit = true;
                     }
                   
@@ -88,7 +88,7 @@ public class BackUp : MonoBehaviour
                 }
             }
             if (EnemyCount >= 2)
-                GetComponent<MultiKillBonus>().AddBonus(((int)Mathf.Ceil(EnemyCount / 2f)) * 5, EnemyType);
+                GetComponent<MultiKillBonus>().AddBonus(((int)Mathf.Ceil(EnemyCount / 2f)) * 5, EnemyType, "eh");
             if (enemyHit)
                 Debug.Log("Hit");
             else

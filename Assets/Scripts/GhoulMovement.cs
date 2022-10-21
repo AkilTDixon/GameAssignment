@@ -12,6 +12,9 @@ public class GhoulMovement : MonoBehaviour
     [SerializeField] string EnemyType = "Zombie";
     [SerializeField] Vector3 MoveDirection;
     [SerializeField] int PhaseNumber;
+    public string Target;
+
+
     private float lastMoved;
     private float movePeriod = 0;
     private float randDir;
@@ -21,6 +24,7 @@ public class GhoulMovement : MonoBehaviour
     private int ChanceToMove = 950;
     void Start()
     {
+        Target = "";
         if (EnemyType == "Image")
             ChanceToMove = 5000;
         anim = GetComponent<Animator>();
@@ -43,10 +47,10 @@ public class GhoulMovement : MonoBehaviour
         }
         else
         {
-            if (collision.collider.name == "VintageRifle")
+            if (collision.collider.name == "Player1" || collision.collider.name == "Player2" || collision.collider.name == "Player3" || collision.collider.name == "Player4")
             {
                 //ChanceToMove = 1200;
-                
+                Target = collision.collider.name;
                 Attacking = true;
                // MoveSpeed = 0;
                 anim.SetFloat("MovePeriod", 0);
@@ -59,7 +63,7 @@ public class GhoulMovement : MonoBehaviour
         if (EnemyType == "Boss" || EnemyType == "Image")
         {
 
-            if (collision.collider.name == "VintageRifle")
+            if (collision.collider.name == "Player1" || collision.collider.name == "Player2" || collision.collider.name == "Player3" || collision.collider.name == "Player4")
             {
                 //ChanceToMove = 950;
                 Attacking = false;
@@ -83,7 +87,7 @@ public class GhoulMovement : MonoBehaviour
     {
         if (PhaseNumber == 1)
         {
-            if (Time.time > lastMoved + 0.025f && !Attacking)
+            if (!Attacking)
             {
                 
                 anim.SetFloat("MovePeriod", 1);
