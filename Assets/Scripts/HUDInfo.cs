@@ -78,8 +78,7 @@ public class HUDInfo : MonoBehaviour
     private TextMeshProUGUI v2Text;
     private float P1count = 0;
     private float P2count = 0;
-    //[SerializeField] GameObject Player3ScoreTally;
-    //[SerializeField] GameObject Player4ScoreTally;
+    public float PlayZLevel;
     private int ScoreTallyPlayer1;
     private int ScoreTallyPlayer2;
     private int ScoreTallyPlayer3;
@@ -88,6 +87,7 @@ public class HUDInfo : MonoBehaviour
 
     void Start()
     {
+        PlayZLevel = GameObject.Find("Player1").gameObject.transform.position.z;
         v1Text = VariantActive.GetComponent<TextMeshProUGUI>();
         v2Text = P2VariantActive.GetComponent<TextMeshProUGUI>();
         VariantCooldown = GameObject.Find("Player1Reticle").gameObject.GetComponent<Shoot>().VariantModeCooldown;
@@ -211,6 +211,10 @@ public class HUDInfo : MonoBehaviour
     {
         Time.timeScale = 0;
         GameOverUIHolder.SetActive(true);
+        //PlayerEntityInfo.GetComponent<PlayerEntityInfo>().Player1.SetActive(false);
+        PlayerEntityInfo.GetComponent<PlayerEntityInfo>().Player1Reticle.SetActive(false);
+
+
         if (NumberOfContinues <= 0)
             GameOverUIHolder.transform.Find("ContinueButton").gameObject.SetActive(false);
     }
@@ -224,6 +228,8 @@ public class HUDInfo : MonoBehaviour
 
             HPCount.GetComponent<TextMeshProUGUI>().text = "99";
             LifeCount.GetComponent<TextMeshProUGUI>().text = "3";
+        //PlayerEntityInfo.GetComponent<PlayerEntityInfo>().Player1.SetActive(true);
+        PlayerEntityInfo.GetComponent<PlayerEntityInfo>().Player1Reticle.SetActive(true);
         //}
     }
     T SetWhichPlayer<T>(string player, GameObject obj1, GameObject obj2)
@@ -287,14 +293,16 @@ public class HUDInfo : MonoBehaviour
     }
     void DisablePlayer(string player)
     {
-        if (!LifeCount.activeSelf && !P2LifeCount.activeSelf)
+        if (!LifeCount.activeSelf || !P2LifeCount.activeSelf)
         {
             NumberOfContinues = 0;
             GameOver();
             return;
         }
 
-        GameObject LifetoChange = SetWhichPlayer(player, LifeCount, P2LifeCount); 
+        GameObject LifetoChange = SetWhichPlayer(player, LifeCount, P2LifeCount);
+
+
         GameObject HPtoChange = SetWhichPlayer(player, HPCount, P2HPCount);
         GameObject LowBountyToChange = SetWhichPlayer(player, LowBountyCount, P2LowBountyCount);
         GameObject WitchBountyToChange = SetWhichPlayer(player, WitchBountyCount, P2WitchBountyCount);

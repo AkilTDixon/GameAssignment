@@ -7,18 +7,28 @@ public class Stage1Phase1Transition : MonoBehaviour
     public List<GameObject> GeometryToRemove;
     [SerializeField] private GameObject BossSpawnPoints;
     [SerializeField] private GameObject PlayerEntity;
+    public float HealthWindowPercent = 0.85f;
     private Enemy hpHolder;
     private float TransitionTime;
-    
+    private float MaxHP;
 
+    /*
+     
+     HealthWindowPercent = (hpHolder.HealthPoints - ((hpHolder.HealthPoints - (hpHolder.HealthPoints * HealthWindowPercent)) * 2))
+     /
+     hpHolder.HealthPoints
+     
+    -68.269, 2.431, -44.088
+     */
     void Start()
     {
         TransitionTime = 0;
         hpHolder = GetComponent<Enemy>();
+        MaxHP = hpHolder.HealthPoints;
     }
     void Update()
     {
-        if (hpHolder.HealthPoints <= 4250)
+        if (hpHolder.HealthPoints <= MaxHP * HealthWindowPercent)
         {
             if (TransitionTime == 0)
                 Transition();
@@ -40,7 +50,7 @@ public class Stage1Phase1Transition : MonoBehaviour
 
         BossSpawnPoints.GetComponent<Boss1Phase2>().enabled = true;
 
-        Camera.main.transform.position = new Vector3(-67.32f, 3.18f, -48.15f);
+        Camera.main.transform.position = new Vector3(-68.269f, 2.431f, -44.088f);
 
 
         //Destroy(gameObject);

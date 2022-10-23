@@ -24,7 +24,7 @@ Phase 2: -67.32, 3.18, -48.15
         Stage1Pos = new Vector3(-1.47f, 3.9f, -53f);
         Stage2Pos = new Vector3(-32.78f, 4.531f, -45.92f);
         Boss1Phase1Pos = new Vector3(-67.32f, -0.02f, -39.5f);
-        Boss1Phase2Pos = new Vector3(-67.32f, 3.18f, -48.15f);
+        Boss1Phase2Pos = new Vector3(-68.269f, 2.431f, -44.088f);
     }
 }
 

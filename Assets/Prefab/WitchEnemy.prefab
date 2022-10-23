@@ -195,7 +195,7 @@ MonoBehaviour:
   ActiveTime: 3.5
   EnemyType: Witch
   AssociatedBountyCount: {fileID: 346581088931975971, guid: 8530168292b5e0a47b9e230e0161903e, type: 3}
-  EntrySpeed: 5
+  EntrySpeed: 3.5
   Highlighted: 0
 --- !u!114 &2564474296155342338
 MonoBehaviour:

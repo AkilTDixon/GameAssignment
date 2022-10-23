@@ -10,8 +10,7 @@ public class KillSwitch : MonoBehaviour
     }
 
     void GhostCall()
-    {
-        
+    {      
         Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseMisses(GetComponent<GhostTarget>().GhostDamage, GetComponent<GhostTarget>().PlayerName);
     }
 

@@ -7,6 +7,11 @@ public class Spawn : MonoBehaviour
     public float SpawnInterval = 5f;
     [SerializeField] GameObject EnemyPrefab;
     [SerializeField] GameObject PlayerEntityInfo;
+    public bool OverrideMode = false;
+    public int HealthPoints = 0;
+    public float ActiveTime = 0;
+    public float EntrySpeed = 0;
+
     public bool VariantMode = false;
     public int SpawnNumber = 10;
     public int EntitiesPerInterval = 1;
@@ -28,17 +33,7 @@ public class Spawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-/*        if (VariantMode)
-        {
-            if (VariantStart == 0)
-                VariantStart = Time.time;
 
-            if (Time.time > VariantStart + vActiveTime)
-            {
-                VariantStart = 0;        
-            }
-                
-        }*/
 
         if ((Time.time > lastSpawned + SpawnInterval || lastSpawned == 0f) && SpawnNumber > 0)
         {
@@ -46,17 +41,21 @@ public class Spawn : MonoBehaviour
             {
                 Transform spawnPoint = ChildObjects[Random.Range(0, numOfChildren - 1)];
 
-                Instantiate(EnemyPrefab, spawnPoint.position, EnemyPrefab.transform.rotation);
+                GameObject obj = Instantiate(EnemyPrefab, spawnPoint.position, EnemyPrefab.transform.rotation);
+                if (OverrideMode)
+                {
+                    Enemy en = obj.GetComponent<Enemy>();
+                    en.HealthPoints = HealthPoints;
+                    en.ActiveTime = ActiveTime;
+                    en.EntrySpeed = EntrySpeed;
+                }
+                
                 SpawnNumber--;
                 lastSpawned = Time.time;
             }
         }
         if (SpawnNumber <= 0)
         {
-/*            if (VariantMode)
-            {
-                VariantStart = 0;        
-            }*/
             GetComponent<StageTransition>().enabled = true;
         }
     }

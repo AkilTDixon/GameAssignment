@@ -8,6 +8,9 @@ public class MultiKillBonus : MonoBehaviour
     {
         switch (type)
         {
+            case "SkeletonEnemy(Clone)":
+                Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseLowBounty(value, player);
+                break;
             case "ZombieEnemy(Clone)":
                 Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseLowBounty(value, player);
                 break;

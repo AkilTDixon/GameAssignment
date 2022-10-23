@@ -35,10 +35,12 @@ public class MoveCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Keypad6) && Mode != "Multiplayer")
+        if ((Input.GetKeyDown(KeyCode.Keypad4) || Input.GetKeyDown(KeyCode.Keypad6)) && Mode != "Multiplayer")
         {
-            Camera.main.transform.Find("HUD").gameObject.GetComponent<HUDInfo>().SetMultiplayerUI();
+            GameObject HUD = Camera.main.transform.Find("HUD").gameObject;
+            HUD.GetComponent<HUDInfo>().SetMultiplayerUI();
             Mode = "Multiplayer";
+            HUD.GetComponent<SpawnDifficultyCurve>().IncreaseDifficulty();
             
             //HUD.transform.Find("GameplayUI").Find("Mode").GetComponent<TextMeshProUGUI>().text = Mode;
             //HUD.GetComponent<HUDInfo>().SetMultiplayerUI();

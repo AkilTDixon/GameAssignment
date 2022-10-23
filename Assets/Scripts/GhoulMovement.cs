@@ -32,8 +32,7 @@ public class GhoulMovement : MonoBehaviour
         //temp.z = 0;
         //temp.y = 0;
         transform.forward = temp;
-        if (EnemyType == "Image")
-            ChanceToMove = 5000;
+
 
 
         Attacking = false;
@@ -57,6 +56,22 @@ public class GhoulMovement : MonoBehaviour
                 anim.SetBool("PlayerClose", true);
             }
         }
+        if (EnemyType == "Skeleton")
+        {
+            if (collision.gameObject.name == "Wall")
+                Sign = -1;
+            if (collision.collider.name == "Player1" || collision.collider.name == "Player2" || collision.collider.name == "Player3" || collision.collider.name == "Player4")
+            {
+                Target = collision.collider.name;
+                GetComponent<GhostTarget>().PlayerName = Target;
+                Attacking = true;
+                anim.SetFloat("MovePeriod", 0);
+                anim.SetBool("PlayerClose", true);
+                ChanceToMove = 1200;
+            }
+        }
+            
+
     }
     private void OnCollisionExit(Collision collision)
     {
@@ -72,11 +87,21 @@ public class GhoulMovement : MonoBehaviour
                 anim.SetBool("PlayerClose", false);
             }
         }
+        if (EnemyType == "Skeleton")
+        {
+            if (collision.collider.name == "Player1" || collision.collider.name == "Player2" || collision.collider.name == "Player3" || collision.collider.name == "Player4")
+            {
+                ChanceToMove = 950;
+                Attacking = false;
+                anim.SetFloat("MovePeriod", 1);
+                anim.SetBool("PlayerClose", false);
+            }
+        }
     }
     // Update is called once per frame
     void Update()
     {
-        if (EnemyType == "Zombie" || EnemyType == "Witch" || EnemyType == "Image")
+        if (EnemyType == "Zombie" || EnemyType == "Witch" || EnemyType == "Image" || EnemyType == "Skeleton")
             EnemyMovement();
         else
             BossMovement();

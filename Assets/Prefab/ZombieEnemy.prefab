@@ -589,7 +589,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HealthPoints: 20
   TextHolder: {fileID: 1240404133}
-  ActiveTime: 3.5
+  ActiveTime: 5
   EnemyType: Zombie
   AssociatedBountyCount: {fileID: 99673852668965314, guid: c8f15d3bbc767254090c1d4456828ec2, type: 3}
   EntrySpeed: 3.5

@@ -21,6 +21,12 @@ public class WitchSpawn : MonoBehaviour
     private float SpawnChanceBase;
     public float VariantStart = 0;
     public float vActiveTime = 10;
+    public bool OverrideMode = false;
+    public int HealthPoints = 0;
+    public float ActiveTime = 0;
+    public float EntrySpeed = 0;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,19 +41,7 @@ public class WitchSpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-/*        if (VariantMode)
-        {
-            if (VariantStart == 0)
-                VariantStart = Time.time;
 
-            if (Time.time > VariantStart + vActiveTime)
-            {
-                VariantStart = 0;
-
-
-            }
-
-        }*/
         
         if (Time.time > lastChecked+1f)
         {
@@ -58,8 +52,13 @@ public class WitchSpawn : MonoBehaviour
                 Transform spawnPoint = ChildObjects[Random.Range(0, numOfChildren - 1)];
 
                 GameObject obj = (GameObject)Instantiate(EnemyPrefab, spawnPoint.position, EnemyPrefab.transform.rotation);
-
-                //MaxSpawnOccurence -= 1;
+                if (OverrideMode)
+                {
+                    Enemy en = obj.GetComponent<Enemy>();
+                    en.HealthPoints = HealthPoints;
+                    en.ActiveTime = ActiveTime;
+                    en.EntrySpeed = EntrySpeed;
+                }
                 SpawnChance = SpawnChanceBase;
             }
             else

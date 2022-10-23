@@ -8,10 +8,11 @@ public class Enemy : MonoBehaviour
 
     public int HealthPoints = 100;
     [SerializeField] private GameObject TextHolder;
-    [SerializeField] private float ActiveTime = 5f;
+    public float ActiveTime = 5f;
+    private float PlayerZ;
     [SerializeField] private string EnemyType;
     [SerializeField] private GameObject AssociatedBountyCount;
-    [SerializeField] private float EntrySpeed = -0.01f;
+    public float EntrySpeed = 5f;
 
     
     private GameObject BountyGraphic;
@@ -33,7 +34,7 @@ public class Enemy : MonoBehaviour
     
     void Start()
      {
-        
+        PlayerZ = GameObject.Find("HUD").gameObject.GetComponent<HUDInfo>().PlayZLevel;
         IntroDone = false;
         Highlighted = false;
         anim = GetComponent<Animator>();
@@ -52,13 +53,13 @@ public class Enemy : MonoBehaviour
     void Update()
     {
 
-        if (transform.position.z > -5.07f && EntrySpeed != 0)
+        if (transform.position.z > PlayerZ && EntrySpeed != 0)
         {
             anim.SetFloat("MovePeriod", 1);
             GetComponent<GhoulMovement>().enabled = false;
             transform.position += new Vector3(0, 0, -1f * EntrySpeed * Time.deltaTime);
             transform.rotation = Quaternion.LookRotation(new Vector3(0, 0, -1));
-            if (transform.position.z <= -5.07f)
+            if (transform.position.z <= PlayerZ)
                 IntroDone = true;
         }
         else
@@ -70,10 +71,10 @@ public class Enemy : MonoBehaviour
 
             if (IntroDone)
             {
-                if (transform.position.z > -5.07f)
+                if (transform.position.z > PlayerZ)
                 {
                     Vector3 temp = transform.position;
-                    temp.z = -5.07f;
+                    temp.z = PlayerZ;
                     transform.position = temp;
                 }
                 anim.SetFloat("MovePeriod", 0);
@@ -155,6 +156,10 @@ public class Enemy : MonoBehaviour
 
                 switch (EnemyType)
                 {
+
+                    case "Skeleton":
+                        Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseLowBounty(1, player);
+                        break;
                     case "Zombie":
                         Camera.main.transform.Find("HUD").GetComponent<HUDInfo>().IncreaseLowBounty(1, player);
                         break;
