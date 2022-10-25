@@ -31,7 +31,7 @@ public class Shoot : MonoBehaviour
     private GameObject HUD;
     private float NormalRange;
     public bool variant = false;
-    private string[] EnemyList = { "ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)", "Boss1Phase1", "Boss1Phase2(Clone)", "Boss1Phase2Image(Clone)", "SkeletonEnemy", "SkeletonEnemy(Clone)" };
+    private string[] EnemyList = { "ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)", "Boss1Phase1", "Boss1Phase2(Clone)", "Boss1Phase2Image(Clone)", "SkeletonEnemy", "SkeletonEnemy(Clone)", "ExplosiveBarrel", "ExplosiveBarrel(Clone)" };
     private float lastShot = 0;
 
     //Defaults
@@ -376,7 +376,7 @@ public class Shoot : MonoBehaviour
             if (Range != Mathf.Infinity)
                 Range = Mathf.Infinity;
             
-            newPos.z = 12f;
+            newPos.z = - (Camera.main.transform.position.z + ((-PlayerEntity.transform.position.z) * 3f));
 
             //mPos = Camera.main.ScreenToWorldPoint(mouseScreenPosition);
             transform.position = ClampToDepthMode(newPos);
@@ -444,7 +444,10 @@ public class Shoot : MonoBehaviour
                         EnemyCount++;
                         EnemyType = hits[j].collider.name;
                         GameObject enemy = hits[j].collider.gameObject;
-                        enemy.GetComponent<Enemy>().TakeDamage(10, PlayerEntity.gameObject.name);
+                        if (enemy.GetComponent<Enemy>() != null)
+                            enemy.GetComponent<Enemy>().TakeDamage(10, PlayerEntity.gameObject.name);
+                        else if (enemy.GetComponent<DamageableEnvironment>() != null)
+                            enemy.GetComponent<DamageableEnvironment>().TakeDamage(10, PlayerEntity.gameObject.name);
                         enemyHit = true;
                     }
 

@@ -16,7 +16,7 @@ public class Spawn : MonoBehaviour
     public int SpawnNumber = 10;
     public int EntitiesPerInterval = 1;
 
-    private Transform[] ChildObjects;
+    public Transform[] ChildObjects;
     private int numOfChildren;
     private float lastSpawned;
     public float VariantStart = 0;
@@ -39,8 +39,9 @@ public class Spawn : MonoBehaviour
         {
             for (int i = 0; i < EntitiesPerInterval; i++)
             {
-                Transform spawnPoint = ChildObjects[Random.Range(0, numOfChildren - 1)];
-
+                
+                Transform spawnPoint = ChildObjects[Random.Range(1, numOfChildren - 1)];
+                
                 GameObject obj = Instantiate(EnemyPrefab, spawnPoint.position, EnemyPrefab.transform.rotation);
                 if (OverrideMode)
                 {

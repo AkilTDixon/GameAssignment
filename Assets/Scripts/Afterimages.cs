@@ -31,6 +31,9 @@ public class Afterimages : MonoBehaviour
         if (Time.time > timeActivated + Cooldown && !VariantMode)
         {
 
+
+            GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+            GetComponent<BoxCollider>().enabled = true;
             DeleteList(images);
             
             head = MaxImages - 1;

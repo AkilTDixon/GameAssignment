@@ -7,7 +7,7 @@ public class MoveCharacter : MonoBehaviour
 
     [SerializeField] private float DashCooldown = 0.25f;    
     public GameObject Crosshair;
-    private float moveSpeed = 5.0f;
+    public float moveSpeed = 5.0f;
     private Rigidbody body;
     public Animator anim;
     public Vector3 facing;
@@ -91,6 +91,11 @@ public class MoveCharacter : MonoBehaviour
             {
                 GetComponent<Afterimages>().timeActivated = Time.time;
                 GetComponent<Afterimages>().enabled = true;
+                
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+                
+                GetComponent<BoxCollider>().enabled = false;
+                
                 body.AddForce(new Vector3((horizontal * 15f) , 0, 0), ForceMode.Impulse);
                 DashStart = Time.time;
             }
@@ -124,7 +129,13 @@ public class MoveCharacter : MonoBehaviour
             {
                 GetComponent<Afterimages>().timeActivated = Time.time;
                 GetComponent<Afterimages>().enabled = true;
-                body.AddForce(new Vector3((horizontal * 15f), 0, 0), ForceMode.Impulse);
+
+                GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+
+                GetComponent<BoxCollider>().enabled = false;
+
+
+            body.AddForce(new Vector3((horizontal * 15f), 0, 0), ForceMode.Impulse);
                 DashStart = Time.time;
             }
 

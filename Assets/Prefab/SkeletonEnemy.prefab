@@ -453,7 +453,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: a78f56d753fb5b647ba352d959e917f5, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -517,9 +517,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b8ee54389950b1469a5ff00c9f1cc3e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HealthPoints: 10
+  HealthPoints: 20
   TextHolder: {fileID: 2295006188372671860}
-  ActiveTime: 5
+  ActiveTime: 20
   EnemyType: Skeleton
   AssociatedBountyCount: {fileID: 99673852668965314, guid: c8f15d3bbc767254090c1d4456828ec2, type: 3}
   EntrySpeed: 5

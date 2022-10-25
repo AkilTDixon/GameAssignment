@@ -49,7 +49,7 @@ public class WitchSpawn : MonoBehaviour
             if (randNum >= (1f - SpawnChance))
             {
                
-                Transform spawnPoint = ChildObjects[Random.Range(0, numOfChildren - 1)];
+                Transform spawnPoint = ChildObjects[Random.Range(1, numOfChildren - 1)];
 
                 GameObject obj = (GameObject)Instantiate(EnemyPrefab, spawnPoint.position, EnemyPrefab.transform.rotation);
                 if (OverrideMode)

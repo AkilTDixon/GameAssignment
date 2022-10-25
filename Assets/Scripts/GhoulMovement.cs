@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GhoulMovement : MonoBehaviour
 {
-    [SerializeField] float MoveSpeed = 1.5f;
+    public float MoveSpeed = 1.5f;
     [SerializeField] float WaitIntervalMin = 5;
     [SerializeField] float WaitIntervalMax = 10;
     [SerializeField] float MoveIntervalMin = 1;

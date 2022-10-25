@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject TextHolder;
     public float ActiveTime = 5f;
     private float PlayerZ;
-    [SerializeField] private string EnemyType;
+    public string EnemyType;
     [SerializeField] private GameObject AssociatedBountyCount;
     public float EntrySpeed = 5f;
 
