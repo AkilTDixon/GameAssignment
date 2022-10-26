@@ -29,6 +29,7 @@ purple count - 537.0648f, -263.1476f, 0f
  */
 public class HUDInfo : MonoBehaviour
 {
+    public GameObject pMenu;
     public GameObject HPCount;
     public GameObject HPImage;
     public GameObject LifeCount;
@@ -66,7 +67,7 @@ public class HUDInfo : MonoBehaviour
     public GameObject PlayerEntityInfo;
 
     public AudioSource ActiveBGM;
-
+    private bool PAUSED = false;
     private float VariantCooldown = 20f;
     private float VariantActiveTime = 10f;
     private bool P1Variant = false;
@@ -167,8 +168,30 @@ public class HUDInfo : MonoBehaviour
         if (P2Variant)
             Player2VariantMode();
 
-    }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (PAUSED)
+                begin();
+            else
+                pause();
+        }
 
+    }
+    void pause()
+    {
+
+        pMenu.SetActive(true);
+        PlayerEntityInfo.GetComponent<PlayerEntityInfo>().Player1Reticle.SetActive(false);
+        Time.timeScale = 0f;
+        PAUSED = true;
+    }
+    void begin()
+    {
+        pMenu.SetActive(false);
+        PlayerEntityInfo.GetComponent<PlayerEntityInfo>().Player1Reticle.SetActive(true);
+        Time.timeScale = 1f;
+        PAUSED = false;
+    }
     public void EndLevel()
     {
         Time.timeScale = 0;

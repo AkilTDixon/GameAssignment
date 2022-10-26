@@ -12,6 +12,13 @@ Level 1 Stage 1: -1.47, 3.9, -53
 Phase 1: -67.32, -0.02, -39.5
 
 Phase 2: -67.32, 3.18, -48.15
+
+
+Level 2:
+
+Stage 1: 0, 1, -10
+
+Boss: -181.1, 7.77, -23.12
  
  */
     public Vector3 Stage1Pos;

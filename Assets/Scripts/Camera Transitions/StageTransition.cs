@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StageTransition : MonoBehaviour
 {
-
+    [SerializeField] GameObject BarrelSpawnPoints;
     [SerializeField] GameObject WitchSpawnPoints;
     [SerializeField] GameObject GeometryToRemove;
     
@@ -15,6 +15,8 @@ public class StageTransition : MonoBehaviour
         Camera.main.transform.Find("HUD").Find("ArrowHolder").gameObject.SetActive(true);
         GetComponent<Spawn>().enabled = false;
         WitchSpawnPoints.gameObject.GetComponent<WitchSpawn>().enabled = false;
+        if (BarrelSpawnPoints != null)
+            BarrelSpawnPoints.gameObject.GetComponent<BarrelSpawn>().enabled = false;
     }
 
 }

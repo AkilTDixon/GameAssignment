@@ -33,7 +33,9 @@ public class Afterimages : MonoBehaviour
 
 
             GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-            GetComponent<BoxCollider>().enabled = true;
+            gameObject.layer = 7;
+
+            //GetComponent<BoxCollider>().enabled = true;
             DeleteList(images);
             
             head = MaxImages - 1;

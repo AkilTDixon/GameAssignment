@@ -173,7 +173,8 @@ public class Enemy : MonoBehaviour
                         break;
                 }
                 SpawnBountyGraphic();
-                GetComponent<GhoulMovement>().enabled = false;
+                if (GetComponent<GhoulMovement>() != null)
+                    GetComponent<GhoulMovement>().enabled = false;
                 tmsh.enabled = false;
                 //GetComponent<BoxCollider>().enabled = false;
                 GetComponent<Rigidbody>().useGravity = false;

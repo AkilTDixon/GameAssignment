@@ -93,9 +93,9 @@ public class MoveCharacter : MonoBehaviour
                 GetComponent<Afterimages>().enabled = true;
                 
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-                
-                GetComponent<BoxCollider>().enabled = false;
-                
+
+                gameObject.layer = 8;
+
                 body.AddForce(new Vector3((horizontal * 15f) , 0, 0), ForceMode.Impulse);
                 DashStart = Time.time;
             }
@@ -131,11 +131,11 @@ public class MoveCharacter : MonoBehaviour
                 GetComponent<Afterimages>().enabled = true;
 
                 GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+                gameObject.layer = 8;
+                
 
-                GetComponent<BoxCollider>().enabled = false;
 
-
-            body.AddForce(new Vector3((horizontal * 15f), 0, 0), ForceMode.Impulse);
+                body.AddForce(new Vector3((horizontal * 15f), 0, 0), ForceMode.Impulse);
                 DashStart = Time.time;
             }
 

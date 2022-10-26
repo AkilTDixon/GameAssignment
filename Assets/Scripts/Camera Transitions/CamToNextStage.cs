@@ -7,6 +7,7 @@ public class CamToNextStage : MonoBehaviour
 
     [SerializeField] GameObject SpawnPoints;
     [SerializeField] GameObject WitchSpawnPoints;
+    [SerializeField] GameObject BarrelSpawnPoints;
     [SerializeField] Transform NextStageEntry;
     [SerializeField] Vector3 CamPos;
     [SerializeField] bool BossNext = false;
@@ -18,7 +19,7 @@ public class CamToNextStage : MonoBehaviour
     
     void Start()
     {
-        modifiedZEntry = new Vector3(NextStageEntry.position.x,NextStageEntry.position.y,-5.07f);
+        
         
         AllPlayersAndReticles = new List<GameObject>();
         AllPlayersAndReticles.Add(GameObject.Find("PlayerEntityInfo").GetComponent<PlayerEntityInfo>().Player1);
@@ -32,6 +33,9 @@ public class CamToNextStage : MonoBehaviour
 
         AllPlayersAndReticles.Add(GameObject.Find("PlayerEntityInfo").GetComponent<PlayerEntityInfo>().Player4);
         AllPlayersAndReticles.Add(GameObject.Find("PlayerEntityInfo").GetComponent<PlayerEntityInfo>().Player4Reticle);
+
+        
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -41,7 +45,7 @@ public class CamToNextStage : MonoBehaviour
             for (int i = 0; i < AllPlayersAndReticles.Count; i++)
             {
 
-                AllPlayersAndReticles[i].transform.position = modifiedZEntry;
+                AllPlayersAndReticles[i].transform.position = NextStageEntry.position;
 
             }
             GameObject HUD = Camera.main.transform.Find("HUD").gameObject;
@@ -74,6 +78,8 @@ public class CamToNextStage : MonoBehaviour
             {
                 SpawnPoints.GetComponent<Spawn>().enabled = true;
                 WitchSpawnPoints.GetComponent<WitchSpawn>().enabled = true;
+                if (BarrelSpawnPoints != null)
+                    BarrelSpawnPoints.GetComponent<BarrelSpawn>().enabled = true;
             }
 
 

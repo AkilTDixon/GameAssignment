@@ -38,34 +38,20 @@ public class ExplodeBarrel : MonoBehaviour
             rig.AddForce(dir * ExplosivePower, ForceMode.Impulse);
         }
     }   
-    void knockBack()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, ExplosiveRadius);
-
-        foreach(Collider nearby in colliders)
-        {
-            Rigidbody rig = nearby.GetComponent<Rigidbody>();
-
-            if (rig != null)
-            {
-               
-                    rig.velocity = Vector3.zero;
-                    rig.AddExplosionForce(ExplosivePower, transform.position, ExplosiveRadius, 0.01f, ForceMode.Impulse);
-                
-            }
-        }
-    }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, ExplosiveRadius);
+        Gizmos.DrawWireSphere(transform.position + (transform.up * 1.5f), ExplosiveRadius);
     }
 
     // Update is called once per frame
     void Update()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, ExplosiveRadius);
+        if (transform.position.z < Camera.main.transform.position.z || transform.position.z > Camera.main.transform.position.z + 500f)
+            BarrelDeath();
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position+(transform.up * 1.5f), ExplosiveRadius);
         
         foreach (Collider nearby in colliders)
         {
@@ -76,7 +62,7 @@ public class ExplodeBarrel : MonoBehaviour
                 if (rig != null)
                 {
                     GhostTarget barrelHit = GetComponent<GhostTarget>();
-                    Vector3 dir = nearby.gameObject.transform.position - transform.position;
+                    Vector3 dir = nearby.gameObject.transform.position - (transform.position + (transform.up * 1.5f));
                     rig.AddForce(dir * ExplosivePower, ForceMode.Impulse);
                     barrelHit.SetTarget(nearby.name);
                     GetComponent<InflictDamage>().DealDamage();
@@ -88,22 +74,35 @@ public class ExplodeBarrel : MonoBehaviour
         }
     }
     
-    void BarrelDeath()
+    public void BarrelDeath()
     {
-        ParticleSystem obj = Instantiate(ExplosiveParticles, transform.position, ExplosiveParticles.transform.rotation);
+        ParticleSystem obj = Instantiate(ExplosiveParticles, transform.position + (transform.up * 1.5f), ExplosiveParticles.transform.rotation);
         obj.Play();
         Destroy(gameObject);
     }
 
     public void ObjectShot(string player)
     {
+
+
+
+        
+        if (name == "BossBarrel(Clone)")
+        {
+            Transform bTarget = GameObject.Find("Boss2Phase1").transform;
+            GetComponent<BarrelRoll>().ChangeDirection(bTarget.position, player);
+            name = "ExplosiveBarrel";
+            return;
+        }
+
         int EnemyCount = 0;
         string EnemyType = "";
-        Collider[] colliders = Physics.OverlapSphere(transform.position, ExplosiveRadius);
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position + (transform.up * 1.5f), ExplosiveRadius);
 
         foreach (Collider nearby in colliders)
         {
-            if (nearby.name == "SkeletonEnemy(Clone)" || nearby.name == "WitchEnemy(Clone)")
+            if (nearby.name == "SkeletonEnemy(Clone)" || nearby.name == "WitchEnemy(Clone)" || nearby.name == "Boss2Phase1")
             {
                 Enemy enComp = nearby.gameObject.GetComponent<Enemy>();
 

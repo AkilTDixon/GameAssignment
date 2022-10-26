@@ -31,7 +31,7 @@ public class Shoot : MonoBehaviour
     private GameObject HUD;
     private float NormalRange;
     public bool variant = false;
-    private string[] EnemyList = { "ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)", "Boss1Phase1", "Boss1Phase2(Clone)", "Boss1Phase2Image(Clone)", "SkeletonEnemy", "SkeletonEnemy(Clone)", "ExplosiveBarrel", "ExplosiveBarrel(Clone)" };
+    private string[] EnemyList = { "ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)", "Boss1Phase1", "Boss1Phase2(Clone)", "Boss1Phase2Image(Clone)", "SkeletonEnemy", "SkeletonEnemy(Clone)", "ExplosiveBarrel", "ExplosiveBarrel(Clone)", "BossBarrel", "BossBarrel(Clone)", "Boss2Phase2" };
     private float lastShot = 0;
 
     //Defaults
