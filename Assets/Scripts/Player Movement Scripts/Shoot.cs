@@ -416,7 +416,6 @@ public class Shoot : MonoBehaviour
     {
         lastShot = Time.time;
         int randNum = Random.Range(0, GunSounds.Length - 1);
-
         GunSounds[randNum].Play();
 
         ParticleSystem obj = Instantiate(MuzzleFlash, FlashPoint.position, MuzzleFlash.transform.rotation);
@@ -441,6 +440,9 @@ public class Shoot : MonoBehaviour
 
                     if (hits[j].collider.name == EnemyList[i])
                     {
+                        if (variant)
+                            HUD.GetComponent<HUDInfo>().IncreaseMisses(-1, PlayerEntity.gameObject.name);
+
                         EnemyCount++;
                         EnemyType = hits[j].collider.name;
                         GameObject enemy = hits[j].collider.gameObject;

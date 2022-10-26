@@ -58,6 +58,7 @@ public class Spawn : MonoBehaviour
         if (SpawnNumber <= 0)
         {
             GetComponent<StageTransition>().enabled = true;
+            enabled = false;
         }
     }
 }

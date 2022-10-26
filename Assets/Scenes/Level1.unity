@@ -6309,6 +6309,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnPoints: {fileID: 589923372}
   WitchSpawnPoints: {fileID: 1035980695}
+  BarrelSpawnPoints: {fileID: 0}
   NextStageEntry: {fileID: 752813933}
   CamPos: {x: -67.32, y: -0.02, z: -39.5}
   BossNext: 1
@@ -7983,6 +7984,7 @@ GameObject:
   - component: {fileID: 478463578}
   - component: {fileID: 478463577}
   - component: {fileID: 478463576}
+  - component: {fileID: 478463579}
   m_Layer: 0
   m_Name: QuitButton
   m_TagString: Untagged
@@ -8054,7 +8056,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 478463577}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 478463579}
+        m_TargetAssemblyTypeName: LoadScene, Assembly-CSharp
+        m_MethodName: LaunchScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &478463577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8093,6 +8107,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 478463574}
   m_CullTransparentMesh: 1
+--- !u!114 &478463579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478463574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb796693407f94b42a2d1d1fd843de39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &478697633
 GameObject:
   m_ObjectHideFlags: 0
@@ -8426,7 +8452,7 @@ MonoBehaviour:
   PlayerEntityInfo: {fileID: 1931684391}
   ActiveBGM: {fileID: 688370916}
   NumberOfContinues: 1
-  PlayZLevel: 0
+  PlayZLevel: -5.07
 --- !u!114 &494244017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22470,6 +22496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpawnPoints: {fileID: 589923372}
   WitchSpawnPoints: {fileID: 1035980695}
+  BarrelSpawnPoints: {fileID: 0}
   NextStageEntry: {fileID: 15692722}
   CamPos: {x: -32.78, y: 4.531, z: -45.92}
   BossNext: 0
@@ -28335,6 +28362,7 @@ GameObject:
   - component: {fileID: 1540073169}
   - component: {fileID: 1540073168}
   - component: {fileID: 1540073167}
+  - component: {fileID: 1540073170}
   m_Layer: 0
   m_Name: QuitButton
   m_TagString: Untagged
@@ -28406,7 +28434,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1540073168}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1540073170}
+        m_TargetAssemblyTypeName: LoadScene, Assembly-CSharp
+        m_MethodName: LaunchScene
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: MainMenu
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1540073168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28445,6 +28485,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1540073165}
   m_CullTransparentMesh: 1
+--- !u!114 &1540073170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1540073165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb796693407f94b42a2d1d1fd843de39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1540778809
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29330,8 +29382,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 27.999954, y: -285}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchoredPosition: {x: 105.80479, y: -286.5718}
+  m_SizeDelta: {x: 355.6097, y: 53.1436}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1575191575
 MonoBehaviour:
@@ -29353,7 +29405,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'SpaceBar or Numpad0: Jump'
+  m_text: 'SpaceBar or NumpadEnter: Jump'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -29416,7 +29468,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -298.5484, w: 0}
+  m_margin: {x: 0, y: 0, z: -202.66739, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -30130,7 +30182,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: GameScene
+          m_StringArgument: Level1
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1615451247

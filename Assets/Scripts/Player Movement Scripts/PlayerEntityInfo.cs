@@ -51,13 +51,17 @@ public class PlayerEntityInfo : MonoBehaviour
     {
         switch (name)
         {
-            case "Player1":
+            case "Player1":               
                 Player1.SetActive(false);
                 Player1Reticle.SetActive(false);
+/*                Destroy(Player1.gameObject);
+                Destroy(Player1Reticle.gameObject);*/
                 break;
             case "Player2":
                 Player2.SetActive(false);
                 Player2Reticle.SetActive(false);
+/*                Destroy(Player2.gameObject);
+                Destroy(Player2Reticle.gameObject);*/
                 break;
         }
     }

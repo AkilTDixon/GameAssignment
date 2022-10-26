@@ -70,7 +70,8 @@ public class SpawnDifficultyCurve : MonoBehaviour
      */
     public void IncreaseDifficulty()
     {
-        boss1.GetComponent<Stage1Phase1Transition>().HealthWindowPercent = (boss1.HealthPoints - ((boss1.HealthPoints - (boss1.HealthPoints * boss1.GetComponent<Stage1Phase1Transition>().HealthWindowPercent)) * 2)) / boss1.HealthPoints;
+        if (boss1.GetComponent<Stage1Phase1Transition>() != null)
+            boss1.GetComponent<Stage1Phase1Transition>().HealthWindowPercent = (boss1.HealthPoints - ((boss1.HealthPoints - (boss1.HealthPoints * boss1.GetComponent<Stage1Phase1Transition>().HealthWindowPercent)) * 2)) / boss1.HealthPoints;
 
 /*        zombie.EntrySpeed *= 2f;
         zombie.ActiveTime /= 2f;

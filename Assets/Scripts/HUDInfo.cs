@@ -290,9 +290,22 @@ public class HUDInfo : MonoBehaviour
     public void IncreaseMisses(float value, string player)
     {
         TextMeshProUGUI HPtoChange = SetWhichPlayer<TextMeshProUGUI>(player, HPCount, P2HPCount);
-        
+        TextMeshProUGUI LifetoChange = SetWhichPlayer<TextMeshProUGUI>(player, LifeCount, P2LifeCount);
+
         float textNum = float.Parse(HPtoChange.GetComponent<TextMeshProUGUI>().text);
         textNum -= value;
+        if (textNum >= 100)
+        {
+            if (float.Parse(LifetoChange.GetComponent<TextMeshProUGUI>().text) <= 2)
+            {
+                ChangeLife(1, player);
+                textNum = 1f;
+            }
+            else
+                textNum = 99f;
+        }
+
+
         HPtoChange.GetComponent<TextMeshProUGUI>().text = textNum + "";
 
         if (textNum <= 0)
@@ -300,6 +313,7 @@ public class HUDInfo : MonoBehaviour
             ChangeLife(-1, player);
             HPtoChange.GetComponent<TextMeshProUGUI>().text = "99";
         }
+
     }
     public void ChangeLife(int value, string player)
     {
