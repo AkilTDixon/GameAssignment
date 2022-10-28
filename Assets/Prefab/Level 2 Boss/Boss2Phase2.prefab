@@ -52,8 +52,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f8055a0ded052504f97e8f9779f80e19, type: 2}
-  - {fileID: 2100000, guid: 7d32ffa6646a17e4d9de5c87f2c6b624, type: 2}
+  - {fileID: 2100000, guid: 871855271134b0945bc01fa41bd4ecf1, type: 2}
+  - {fileID: 2100000, guid: e4ba3ed51a3cfee4db7b1fd57c77f1a3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -354,6 +354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerEntityInfo: {fileID: 0}
   MoveSpeed: 5
+  Phase2Timer: {fileID: 0}
 --- !u!114 &-5943400530862353478
 MonoBehaviour:
   m_ObjectHideFlags: 0

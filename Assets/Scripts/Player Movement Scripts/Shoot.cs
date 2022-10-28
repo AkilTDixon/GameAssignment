@@ -31,7 +31,7 @@ public class Shoot : MonoBehaviour
     private GameObject HUD;
     private float NormalRange;
     public bool variant = false;
-    private string[] EnemyList = { "ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)", "Boss1Phase1", "Boss1Phase2(Clone)", "Boss1Phase2Image(Clone)", "SkeletonEnemy", "SkeletonEnemy(Clone)", "ExplosiveBarrel", "ExplosiveBarrel(Clone)", "BossBarrel", "BossBarrel(Clone)", "Boss2Phase2" };
+    private string[] EnemyList = { "ZombieEnemy", "ZombieEnemy(Clone)", "WitchEnemy", "WitchEnemy(Clone)", "Boss1Phase1", "Boss1Phase2(Clone)", "Boss1Phase2Image(Clone)", "SkeletonEnemy", "SkeletonEnemy(Clone)", "ExplosiveBarrel", "ExplosiveBarrel(Clone)", "BossBarrel", "BossBarrel(Clone)", "Boss2Phase2", "TreasureBox" };
     private float lastShot = 0;
 
     //Defaults
@@ -57,6 +57,8 @@ public class Shoot : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = false;
         DamageDefault = GhostDamage;
 
         Stage1WitchSpawnChance = Stage1WitchSpawnPoints.GetComponent<WitchSpawn>().SpawnChance;

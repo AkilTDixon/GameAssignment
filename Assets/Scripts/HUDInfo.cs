@@ -199,7 +199,7 @@ public class HUDInfo : MonoBehaviour
         int witch = int.Parse(WitchBountyCount.GetComponent<TextMeshProUGUI>().text);
         int boss = int.Parse(BossBountyCount.GetComponent<TextMeshProUGUI>().text);
 
-        print(boss);
+        Cursor.visible = true;
 
 
         ScoreTallyPlayer1 = (1 + (low * LowMultiplierTally)) * (1 + (witch * WitchMultiplierTally)) * (1 + (boss * BossMultiplierTally));
@@ -236,7 +236,7 @@ public class HUDInfo : MonoBehaviour
         GameOverUIHolder.SetActive(true);
         //PlayerEntityInfo.GetComponent<PlayerEntityInfo>().Player1.SetActive(false);
         PlayerEntityInfo.GetComponent<PlayerEntityInfo>().Player1Reticle.SetActive(false);
-
+        Cursor.visible = true;
 
         if (NumberOfContinues <= 0)
             GameOverUIHolder.transform.Find("ContinueButton").gameObject.SetActive(false);
@@ -245,6 +245,7 @@ public class HUDInfo : MonoBehaviour
     {
         //if (Mode.GetComponent<TextMeshProUGUI>().text != "Multiplayer")
         //{
+        Cursor.visible = false;
             Time.timeScale = 1f;
             GameOverUIHolder.SetActive(false);
             NumberOfContinues--;
@@ -294,6 +295,8 @@ public class HUDInfo : MonoBehaviour
 
         float textNum = float.Parse(HPtoChange.GetComponent<TextMeshProUGUI>().text);
         textNum -= value;
+        
+
         if (textNum >= 100)
         {
             if (float.Parse(LifetoChange.GetComponent<TextMeshProUGUI>().text) <= 2)
@@ -310,8 +313,9 @@ public class HUDInfo : MonoBehaviour
 
         if (textNum <= 0)
         {
+
             ChangeLife(-1, player);
-            HPtoChange.GetComponent<TextMeshProUGUI>().text = "99";
+            HPtoChange.GetComponent<TextMeshProUGUI>().text = (textNum + 99f) + "";
         }
 
     }
